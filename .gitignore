@@ -1,0 +1,8 @@
+/nbproject/private/
+.buildpath
+/backup
+/build/logs
+/build/phar
+/build/coverage
+/composer.lock
+/vendor/

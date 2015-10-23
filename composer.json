@@ -1,0 +1,30 @@
+{
+    "name": "kaihempel/simpledi",
+    "description": "Simple dependency injection container",
+    "type": "library",
+    "keywords": [
+        "dependency injection"
+    ],
+    "homepage": "https://dev.kuweh.de/",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Kai Hempel",
+            "email": "dev@kuweh.de",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/kaihempel/simpledi/issues"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "SimpleDI\\": "src/"
+        }
+    },
+    "require-dev": {
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "4.6.*"
+    }
+}
