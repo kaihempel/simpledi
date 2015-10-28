@@ -28,4 +28,19 @@ class LoaderTest extends PHPUnit_Framework_TestCase
 
         return $mock;
     }
+
+    /**
+     * @expectedException \SimpleDI\Exception\Loader\LoaderException
+     */
+    public function testNewLoaderException()
+    {
+        $loader = new Loader('/wrong/path/');
+    }
+
+    public function testNewLoader()
+    {
+        $loader = new Loader(__DIR__ . '/../../../build/');
+
+        $this->assertInstanceOf('SimpleDI\Loader\Loader', $loader);
+    }
 }

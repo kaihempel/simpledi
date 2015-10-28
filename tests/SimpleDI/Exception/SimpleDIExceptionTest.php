@@ -25,7 +25,7 @@ class DbrouterExceptionTest extends PHPUnit_Framework_TestCase
 
     public function testMake() {
 
-        $ex = DbrouterException::make();
+        $ex = SimpleDIException::make();
 
         $this->assertInstanceOf('SimpleDI\Exception\SimpleDIException', $ex);
         $this->assertEquals('Unknown exception', $ex->getMessage());
