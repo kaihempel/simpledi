@@ -47,21 +47,6 @@ interface ContainerInterface
     public function isEmpty();
 
     /**
-     * Returns the closures as serialzie string
-     *
-     * @return  string
-     */
-    public function getSerialized();
-
-    /**
-     * Initialized the container content from serialized string
-     *
-     * @param   string          $serialized         Serialized string with the closures
-     * @return  ContainerInterface
-     */
-    public function initFromSerialized($serialized);
-
-    /**
      * Executes the closure
      *
      * @param   string          $name               Identifier

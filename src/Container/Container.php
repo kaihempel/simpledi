@@ -24,20 +24,11 @@ class Container implements ContainerInterface
     protected $closures = array();
 
     /**
-     * Loader instance
-     *
-     * @var Loader
-     */
-    protected $loader = null;
-
-    /**
      * Constructor
-     *
-     * @param Loader $loader
      */
-    public function __construct(Loader $loader)
+    public function __construct()
     {
-        $this->loader = $loader;
+
     }
 
     /**
@@ -50,7 +41,7 @@ class Container implements ContainerInterface
     public function add($name, Closure $closure)
     {
         if (isset($this->closures[$name])) {
-            throw ContainerException::make($name . ' is already exists!');
+            throw ContainerException::make('"' . $name . '" already exists!');
         }
 
         $this->closures[$name] = $closure;
@@ -92,36 +83,6 @@ class Container implements ContainerInterface
     public function isEmpty()
     {
         return empty($this->closures);
-    }
-
-    /**
-     * Returns the closures as serialzie string
-     *
-     * @return  string
-     */
-    public function getSerialized()
-    {
-        return serialize($this->closures);
-    }
-
-    /**
-     * Initialized the container content from serialized string
-     *
-     * @param   string          $serialized         Serialized string with the closures
-     * @return  ContainerInterface
-     */
-    public function initFromSerialized($serialized)
-    {
-        if (empty($serialized) || ! is_string($serialized)) {
-            throw ContainerException::make('Unexpected parameter value given!');
-        }
-
-        $data = unserialize($serialized);
-
-        if ($data === false) {
-
-        }
-        $this->initialize($data);
     }
 
     /**
