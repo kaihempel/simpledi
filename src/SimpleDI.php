@@ -17,6 +17,13 @@ use Closure;
 final class SimpleDI
 {
     /**
+     * Closure array
+     *
+     * @var array
+     */
+    protected $closures = array();
+
+    /**
      * Getter list
      *
      * @var array
@@ -31,13 +38,6 @@ final class SimpleDI
     private $objectList = array();
 
     /**
-     * Closure container
-     *
-     * @var Container
-     */
-    private $container = null;
-
-    /**
      * Processflag to store the dependency objects
      *
      * @var boolean
@@ -49,7 +49,6 @@ final class SimpleDI
      */
     public function __construct()
     {
-        $this->container = new Container();
     }
 
     /**
@@ -61,8 +60,12 @@ final class SimpleDI
      */
     public function add($name, Closure $closure)
     {
+        if (isset($this->closures[$name])) {
+            throw SimpleDIException::make('"' . $name . '" already exists!');
+        }
+
         $this->addGetter($name);
-        $this->container->add($name, $closure);
+        $this->closures[$name] = $closure;
 
         return $this;
     }
@@ -76,9 +79,33 @@ final class SimpleDI
     public function remove($name)
     {
         $this->removeGetter($name);
-        $this->container->remove($name);
+
+        if ($this->exists($name)) {
+            unset($this->closures[$name]);
+        }
 
         return $this;
+    }
+
+    /**
+     * Checks if one entry exists
+     *
+     * @param   string          $name               Identifier
+     * @return  boolean
+     */
+    public function exists($name)
+    {
+        return isset($this->closures[$name]);
+    }
+
+    /**
+     * Checks if the current container is empty
+     *
+     * @return  boolean
+     */
+    public function isEmpty()
+    {
+        return empty($this->closures);
     }
 
     /**
@@ -132,7 +159,7 @@ final class SimpleDI
 
         // Call the closure and store the object
 
-        $result = $this->container->$name($args);
+        $result = call_user_func_array($this->closures[$name], $args);
 
         if (is_object($result) && $this->getStored === true) {
             $this->resetStored();

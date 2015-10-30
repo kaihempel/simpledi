@@ -23,6 +23,21 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\SimpleDI\SimpleDI', $di);
     }
 
+    public function testIsEmpty()
+    {
+        $di = new SimpleDI();
+
+        $this->assertInstanceOf('\SimpleDI\SimpleDI', $di);
+        $this->assertTrue($di->isEmpty());
+
+        $di->add('test', function() {echo 'test';});
+
+        $this->assertFalse($di->isEmpty());
+
+        $di->remove('test');
+
+        $this->assertTrue($di->isEmpty());
+    }
 
     public function testAdd()
     {
@@ -34,6 +49,28 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $di->add('test', function(){echo 'test';});
         $di->getTest();
 
+    }
+
+    /**
+     * @expectedException \SimpleDI\Exception\SimpleDIException
+     * @expectedExceptionMessage "test" already exists!
+     */
+    public function testAddExistsException()
+    {
+        $di = new SimpleDI();
+        $di->add('test', function() {echo 'test';});
+
+        $this->assertTrue($di->exists('test'));
+
+        $di->add('test', function() {echo 'already exists';});
+    }
+
+    public function testExists()
+    {
+        $di = new SimpleDI();
+        $di->add('test', function() {echo 'test';});
+
+        $this->assertTrue($di->exists('test'));
     }
 
     /**
