@@ -1,6 +1,5 @@
 <?php namespace SimpleDI;
 
-use SimpleDI\Container\Container;
 use SimpleDI\Exception\SimpleDIException;
 use Closure;
 
