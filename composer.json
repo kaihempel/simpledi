@@ -18,6 +18,9 @@
         "issues": "https://github.com/kaihempel/simpledi/issues"
     },
     "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0"
+    },
     "autoload": {
         "psr-4": {
             "SimpleDI\\": "src/"
