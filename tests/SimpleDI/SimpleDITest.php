@@ -102,17 +102,38 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $di->testUndefined();
     }
 
+    /**
+     * @expectedException \SimpleDI\Exception\SimpleDIException
+     * @expectedExceptionMessage Undefined dependency "getTest"!
+     */
     public function testStored()
     {
         $di = new SimpleDI();
 
         $this->assertInstanceOf('\SimpleDI\SimpleDI', $di);
 
+        // Test simple instance creation
+
         $di->add('test', function(){return new \stdClass();});
         $di->getStored();
-        $this->assertInstanceOf('\stdClass', $di->getTest());
+        $obj1 = $di->getTest();
+
+        $this->assertInstanceOf('\stdClass', $obj1);
+
+        $obj1->name = 'test1';
+        $this->assertEquals('test1', $obj1->name);
+
+        // Create second instance and check the name
 
         $di->getStored();
-        $this->assertInstanceOf('\stdClass', $di->getTest());
+        $obj2 = $di->getTest();
+        $this->assertInstanceOf('\stdClass', $obj2);
+        $this->assertEquals('test1', $obj2->name);
+
+        // Remove the closure, no getter and exception is thrown
+
+        $di->remove('test');
+        $di->getStored();
+        $obj3 = $di->getTest();
     }
 }

@@ -13,7 +13,7 @@ use Closure;
  * @link       https://www.kuweh.de/
  * @since      Class available since Release 1.0.0
  */
-final class SimpleDI
+class SimpleDI
 {
     /**
      * Closure array
@@ -27,21 +27,21 @@ final class SimpleDI
      *
      * @var array
      */
-    private $getterList = array();
+    protected $getterList = array();
 
     /**
      * Object storage
      *
      * @var array
      */
-    private $objectList = array();
+    protected $objectList = array();
 
     /**
      * Processflag to store the dependency objects
      *
      * @var boolean
      */
-    private $getStored = false;
+    protected $getStored = false;
 
     /**
      * Constructor
@@ -53,9 +53,10 @@ final class SimpleDI
     /**
      * Sets the closure and the getter mapping
      *
-     * @param type $name
-     * @param Closure $closure
-     * @return SimpleDI
+     * @param   string          $name           Class name
+     * @param   Closure         $closure        Closure function: Code to create
+     *                                          the object instance.
+     * @return  SimpleDI
      */
     public function add($name, Closure $closure)
     {
@@ -72,8 +73,8 @@ final class SimpleDI
     /**
      * Removes the closure and getter mapping.
      *
-     * @param string $name
-     * @return SimpleDI
+     * @param   string          $name           Class name
+     * @return  SimpleDI
      */
     public function remove($name)
     {
@@ -89,7 +90,7 @@ final class SimpleDI
     /**
      * Checks if one entry exists
      *
-     * @param   string          $name               Identifier
+     * @param   string          $name           Class name
      * @return  boolean
      */
     public function exists($name)
@@ -111,7 +112,8 @@ final class SimpleDI
      * Sets the getStored flag to true.
      * The next closure call will first check the local object list.
      * If no object is stored the result will be saved in the object list.
-     * @return SimpleDI
+     *
+     * @return  SimpleDI
      */
     public function getStored()
     {
@@ -124,10 +126,10 @@ final class SimpleDI
      * Calls the container __call method.
      * This methods is the central closure call.
      *
-     * @param string $name
-     * @param array $args
-     * @return null|mixed
-     * @throws SimpleDIException
+     * @param   string          $name           Getter function name
+     * @param   array           $args           Construction arguments
+     * @return  false|mixed
+     * @throws  SimpleDIException
      */
     public function __call($name, $args = array())
     {
@@ -141,11 +143,15 @@ final class SimpleDI
     }
 
     /**
-     * Executes the stored closure from the container
+     * Executes the stored closure from the container. The method returns the
+     * closure result or false in the closure execution fails.
+     * If the "getStored" flag is set, the method checks the object list for a
+     * exsisting instance. Otherwise the created instance will be stored for
+     * further use.
      *
-     * @param string $name
-     * @param array $args
-     * @return null|mixed
+     * @param   string          $name           Class name
+     * @param   array           $args           Construction arguments
+     * @return  boolean|mixed
      */
     private function callClosure($name, $args)
     {
@@ -160,10 +166,14 @@ final class SimpleDI
 
         $result = call_user_func_array($this->closures[$name], $args);
 
+        // Store the instance in current object list
+
         if (is_object($result) && $this->getStored === true) {
             $this->resetStored();
             $this->objectList[$name] = $result;
         }
+
+        // Return the closure result
 
         return $result;
     }
@@ -171,8 +181,8 @@ final class SimpleDI
     /**
      * Checks if the current requested object is stored in the object list.
      *
-     * @param string $name
-     * @return mixed
+     * @param   string          $name           Class name
+     * @return  mixed
      */
     private function isStored($name)
     {
@@ -193,8 +203,8 @@ final class SimpleDI
     /**
      * Returns the getter name
      *
-     * @param string $name
-     * @return string
+     * @param   string          $name           Class name
+     * @return  string
      */
     private function buildGetterName($name)
     {
@@ -204,8 +214,8 @@ final class SimpleDI
     /**
      * Adds the getter function mapping to the getter list.
      *
-     * @param string $name
-     * @return void
+     * @param   string          $name           Class name
+     * @return  void
      */
     private function addGetter($name)
     {
@@ -215,8 +225,8 @@ final class SimpleDI
     /**
      * Removes the getter from the mapping list.
      *
-     * @param string $name
-     * @return void
+     * @param   string          $name           Class name
+     * @return  void
      */
     private function removeGetter($name)
     {
@@ -230,9 +240,9 @@ final class SimpleDI
     /**
      * Returns the mapped container method name.
      *
-     * @param string $getter
-     * @return string
-     * @throws SimpleDIException
+     * @param   string          $getter         Getter function name
+     * @return  string
+     * @throws  SimpleDIException
      */
     private function dispatchGetter($getter)
     {
