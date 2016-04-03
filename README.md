@@ -12,6 +12,6 @@ Installing *Simple* via Composer.
 
 ```json
   "require": {
-    "kaihempel/simpledi": "0.1.*"
+    "kaihempel/simpledi": "1.0.*"
   }
 ```
