@@ -252,4 +252,5 @@ class SimpleDI
 
         return $this->getterList[$getter];
     }
+    
 }
