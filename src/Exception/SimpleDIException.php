@@ -21,7 +21,8 @@ class SimpleDIException extends Exception
      * @param   string $message
      * @return  \Dbrouter\Exception\DbrouterException
      */
-    public static function make($message = NULL) {
+    public static function make($message = NULL)
+    {
 
         if (empty($message) || ! is_string($message)) {
             $message = 'Unknown exception';

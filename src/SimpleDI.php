@@ -246,7 +246,7 @@ class SimpleDI
      */
     private function dispatchGetter($getter)
     {
-        if ( ! isset($this->getterList[$getter])) {
+        if (! isset($this->getterList[$getter])) {
             throw SimpleDIException::make('Undefined dependency "' . $getter . '"!');
         }
 
