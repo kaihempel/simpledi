@@ -7,3 +7,11 @@ Simple dependency injection bundle
 [![Code Coverage](https://scrutinizer-ci.com/g/kaihempel/simpledi/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/kaihempel/simpledi/?branch=master)
 
 This dependency injection container based on the idea to add the object construction code as closure. So every dependency can build with less convention restrictions.
+
+Installing *Simple* via Composer.
+
+```json
+  "require": {
+    "kaihempel/simpledi": "0.1.*"
+  }
+```
