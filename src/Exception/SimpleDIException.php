@@ -29,5 +29,4 @@ class SimpleDIException extends Exception
 
         return new static($message);
     }
-    
 }
