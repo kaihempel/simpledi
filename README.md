@@ -8,10 +8,24 @@ Simple PHP dependency injection bundle
 
 This dependency injection container based on the idea to add the object construction code as closure. So every dependency can build with less convention restrictions.
 
-Installing *Simple* via Composer.
+Installing simpledi via Composer.
 
 ```json
   "require": {
     "kaihempel/simpledi": "1.0.*"
   }
+```
+
+Create the dependency injection container instance:
+
+```php
+  $di = new \SimpleDI\SimpleDI();
+```
+
+Adding closures for instance creation:
+
+```php
+  $di->add('author', function($name) {
+    return new Author($name);
+  });
 ```
