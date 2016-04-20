@@ -29,3 +29,11 @@ Adding closures for instance creation:
     return new Author($name);
   });
 ```
+
+To create instance with further dependencys, the dependency injection container can be commited to the closure by using "use" keyword:
+
+```php
+  $di->add('book', function($name) use ($di) {
+    return new Book($di->getAuthor($name));
+  });
+```
