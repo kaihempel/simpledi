@@ -30,6 +30,12 @@ Adding closures for instance creation:
   });
 ```
 
+After adding the closure with the name "autor", the closure can be executed by calling the magic get method:
+
+```php
+  $di->getAuthor($name)
+```
+
 To create instance with further dependencys, the dependency injection container can be commited to the closure by using "use" keyword:
 
 ```php
@@ -37,3 +43,5 @@ To create instance with further dependencys, the dependency injection container 
     return new Book($di->getAuthor($name));
   });
 ```
+
+Like the description above, the "Book" instance will be initialized with a new author instance.
