@@ -33,7 +33,7 @@ Adding closures for instance creation:
 After adding the closure with the name "autor", the closure can be executed by calling the magic get method:
 
 ```php
-  $di->getAuthor($name)
+  $author = $di->getAuthor($name);
 ```
 
 To create instance with further dependencys, the dependency injection container can be commited to the closure by using the "use" keyword:
@@ -49,8 +49,8 @@ Like the description above, the "Book" instance will be initialized with a new a
 The container has a storage to save created objects. This feature have to be enabled by calling the "getStored()" method before calling the closure code:
 
 ```php
-  $di->getStored()
-     ->getBook($name);
+  $storedBook = $di->getStored()
+                   ->getBook($name);
 ```
 
 If no Book instance is stored, the closure execution saves the new instance in the storage.
