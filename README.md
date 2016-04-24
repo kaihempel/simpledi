@@ -36,7 +36,7 @@ After adding the closure with the name "autor", the closure can be executed by c
   $di->getAuthor($name)
 ```
 
-To create instance with further dependencys, the dependency injection container can be commited to the closure by using "use" keyword:
+To create instance with further dependencys, the dependency injection container can be commited to the closure by using the "use" keyword:
 
 ```php
   $di->add('book', function($name) use ($di) {
@@ -45,3 +45,12 @@ To create instance with further dependencys, the dependency injection container 
 ```
 
 Like the description above, the "Book" instance will be initialized with a new author instance.
+
+The container has a storage to save created objects. This feature have to be enabled by calling the "getStored()" method before calling the closure code:
+
+```php
+  $di->getStored()
+     ->getBook($name);
+```
+
+If no Book instance is stored, the closure execution saves the new instance in the storage.
