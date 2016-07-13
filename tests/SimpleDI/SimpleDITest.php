@@ -129,6 +129,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $obj2 = $di->getTest();
         $this->assertInstanceOf('\stdClass', $obj2);
         $this->assertEquals('test1', $obj2->name);
+        $this->assertEquals($obj2, $obj1);
 
         // Remove the closure, no getter and exception is thrown
 
@@ -136,4 +137,32 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $di->getStored();
         $obj3 = $di->getTest();
     }
+
+    public function testStoredDifferentInstances()
+    {
+        $di = new SimpleDI();
+
+        $this->assertInstanceOf('\SimpleDI\SimpleDI', $di);
+
+        // Add the closure
+
+        $di->add('foo', function(array $data){return new \ArrayObject($data);});
+
+        // Test foo1
+
+        $foo1 = $di->getStored()->getFoo(array('test' => 'bar'));
+
+        $this->assertInstanceOf('\ArrayObject', $foo1);
+        $this->assertArrayHasKey('test', $foo1);
+        $this->assertEquals('bar', $foo1['test']);
+
+        // Test foo2
+
+        $foo2 = $di->getStored()->getFoo(array('test' => 'baz'));
+
+        $this->assertInstanceOf('\ArrayObject', $foo2);
+        $this->assertArrayHasKey('test', $foo2);
+        $this->assertEquals('baz', $foo2['test']);
+    }
+
 }

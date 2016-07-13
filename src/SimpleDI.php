@@ -1,6 +1,7 @@
 <?php namespace SimpleDI;
 
 use SimpleDI\Exception\SimpleDIException;
+use SimpleHash\Hash;
 use Closure;
 
 /**
@@ -157,9 +158,11 @@ class SimpleDI
     {
         // Check if the current object is stored
 
-        if ($this->getStored === true && $this->isStored($name)) {
+        $hash = $this->generateStorageHash($name, $args);
+
+        if ($this->getStored === true && $this->isStored($hash)) {
             $this->resetStored();
-            return $this->objectList[$name];
+            return $this->objectList[$hash];
         }
 
         // Call the closure and store the object
@@ -170,7 +173,7 @@ class SimpleDI
 
         if (is_object($result) && $this->getStored === true) {
             $this->resetStored();
-            $this->objectList[$name] = $result;
+            $this->objectList[$hash] = $result;
         }
 
         // Return the closure result
@@ -179,14 +182,31 @@ class SimpleDI
     }
 
     /**
-     * Checks if the current requested object is stored in the object list.
+     * Generates a hash to store the specific object
      *
      * @param   string          $name           Class name
+     * @param   array           $args           Arguments
+     * @return  string
+     */
+    private function generateStorageHash($name, $args) {
+
+        $hash = Hash::Sha1($name . '_' . serialize($args));
+        return $hash->getHashString();
+    }
+
+    /**
+     * Checks if the current requested object is stored in the object list.
+     *
+     * @param   string          $hash           Class name
      * @return  mixed
      */
-    private function isStored($name)
+    private function isStored($hash)
     {
-        return isset($this->objectList[$name]);
+        if (empty($hash)) {
+            return false;
+        }
+
+        return isset($this->objectList[$hash]);
     }
 
     /**
