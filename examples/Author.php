@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * This is the demo author service.
+ */
 class Author
 {
     private $name = 'name';

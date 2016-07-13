@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This is the demo book service.
+ * Its depends on author!
+ */
 class Book
 {
     private $author;
