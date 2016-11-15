@@ -12,7 +12,7 @@ Installing simpledi via Composer.
 
 ```json
   "require": {
-    "kaihempel/simpledi": "1.0.*"
+    "kaihempel/simpledi": "1.1.*"
   }
 ```
 
